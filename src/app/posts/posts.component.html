@@ -1,11 +1,15 @@
 <div class="center-xs">
-  <img class="Logo" src="../../assets/saw-clown-png-1.png" alt="">
+  <img class="Logo" src="../../assets/persona-caminando-gif-2.gif" alt="">
 </div>
+<br>
+<input type="text" class="form-control" (keyup.enter)="crearPost(input)" #input>
 <br>
 <ul class="list-group">
   <li
     *ngFor="let post of posts" 
-    class="list-group-item">
+    class="list-group-item">    
+    <!--<button class="btn btn-default btn-sm" (click)="updatePost(post)">Update</button>-->
+    <button class="btn btn-default btn-sm" (click)="deletePost(post)">Delete</button>
     {{ post.title }}
   </li>
 </ul>
