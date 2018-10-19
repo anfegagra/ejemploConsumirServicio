@@ -25,15 +25,16 @@ export class PostsComponent implements OnInit {
 
   crearPost(input: HTMLInputElement) {
     let post = { title: input.value };
+    this.posts.splice(0,0,post);
     input.value = '';
     this.postsService.servicioPost(input.value)
     .subscribe(
       res => {
-      //post['id']= res;
-      this.posts.splice(0,0,post);
+      //post['id']= res;      
       console.log(res);
     }, 
     (error: AppError) => {
+      this.posts.splice(0,1);
       if(error instanceof BadRequest) {
          //this.form.setErrors(error.originalError); en caso de tener un reactive form y mostrar un mensaje al lado de un input
       } else {
@@ -50,13 +51,13 @@ export class PostsComponent implements OnInit {
   }
 
   deletePost(post) {
-    this.postsService.delete(345)
-    .subscribe(res => {
-      console.log(res);
-      let index = this.posts.indexOf(post);
-      this.posts.splice(index, 1);      
-    }, 
+    let index = this.posts.indexOf(post);
+    this.posts.splice(index, 1); 
+    this.postsService.delete(post.id)
+    .subscribe(
+      null, 
     (error: AppError) => {
+      this.posts.splice(index, 0, post);
       if(error instanceof NotFoundError) {
         alert('Este post ya ha sido borrado');
       } else {

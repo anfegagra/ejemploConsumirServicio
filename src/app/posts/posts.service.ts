@@ -20,6 +20,7 @@ export class PostsService {
   }
 
   servicioPost(post) {
+    //return throwError(new AppError()); para simular rollback
     return this.http.post(this.url, post).pipe(catchError(this.handleErrors));
   }
 
@@ -28,7 +29,7 @@ export class PostsService {
   }
 
   delete(post) {
-    return this.http.delete(this.url + '/' + post.id).pipe(catchError(this.handleErrors));
+    return this.http.delete(this.url + '/' + post).pipe(catchError(this.handleErrors));
   }
 
   private handleErrors(error: Response) {
