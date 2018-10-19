@@ -15,7 +15,7 @@ export class PostsService {
 
   constructor(private http: HttpClient) { }
 
-  private url = 'https://jsonplaceholder.typicode.com/posts';
+  private url = 'https://sdfjsonplaceholder.typicode.com/posts';
 
   getPosts() {
     return this.http.get<any[]>(this.url);

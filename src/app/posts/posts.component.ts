@@ -20,10 +20,6 @@ export class PostsComponent implements OnInit {
     .subscribe(res => {
       console.log(res);
       this.posts = res;
-    }, 
-    error => {
-      alert('Ocurrió un error inesperado.');
-      console.log(error);      
     });
   }
 
@@ -41,9 +37,8 @@ export class PostsComponent implements OnInit {
       if(error instanceof BadRequest) {
          //this.form.setErrors(error.originalError); en caso de tener un reactive form y mostrar un mensaje al lado de un input
       } else {
-        alert('Ocurrió un error inesperado.');
-        console.log(error); 
-      }     
+        throw error;
+      }  
     });
   }
 
@@ -51,10 +46,6 @@ export class PostsComponent implements OnInit {
     this.postsService.update(post)
     .subscribe(res => {
       console.log(res);      
-    }, 
-    error => {
-      alert('Ocurrió un error inesperado.');
-      console.log(error);      
     });
   }
 
@@ -69,9 +60,8 @@ export class PostsComponent implements OnInit {
       if(error instanceof NotFoundError) {
         alert('Este post ya ha sido borrado');
       } else {
-        alert('Ocurrió un error inesperado.');
-      console.log(error); 
-      }           
+        throw error;
+      }  
     });
   }
 
