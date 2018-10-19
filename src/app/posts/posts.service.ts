@@ -1,10 +1,12 @@
-import { NotFoundError } from './../not-found-error';
+import { BadRequest } from './../errors/bad-request';
 
-import { AppError } from './../app-error';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { AppError } from '../errors/app-error';
+import { NotFoundError } from '../errors/not-found-error';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,11 @@ export class PostsService {
   }
 
   servicioPost(post) {
-    return this.http.post(this.url, post);
+    return this.http.post(this.url, post).pipe(catchError((error: Response) => {
+      if(error.status === 400)
+        return throwError(new BadRequest(error));
+      return throwError(new AppError(error));
+    }));
   }
 
   update(post) {
@@ -30,8 +36,8 @@ export class PostsService {
   delete(post) {
     return this.http.delete(this.url + '/' + post.id).pipe(catchError((error: Response) => {
       if(error.status === 404)
-        return Observable.throw(new NotFoundError());
-      return Observable.throw(new AppError(error));
+        return throwError(new NotFoundError());
+      return throwError(new AppError(error));
     }));
   }
 }

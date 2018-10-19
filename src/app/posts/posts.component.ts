@@ -1,7 +1,8 @@
-import { NotFoundError } from './../not-found-error';
-import { AppError } from './../app-error';
+import { BadRequest } from './../errors/bad-request';
 import { PostsService } from './posts.service';
 import { Component, OnInit } from '@angular/core';
+import { AppError } from '../errors/app-error';
+import { NotFoundError } from '../errors/not-found-error';
 
 @Component({
   selector: 'app-posts',
@@ -36,9 +37,9 @@ export class PostsComponent implements OnInit {
       this.posts.splice(0,0,post);
       console.log(res);
     }, 
-    (error: Response) => {
-      if(error.status === 400) {
-        // this.form.setErrors(error.json()); en caso de tener un reactive form y mostrar un mensaje al lado de un input
+    (error: AppError) => {
+      if(error instanceof BadRequest) {
+         //this.form.setErrors(error.originalError); en caso de tener un reactive form y mostrar un mensaje al lado de un input
       } else {
         alert('Ocurrió un error inesperado.');
         console.log(error); 
@@ -58,7 +59,7 @@ export class PostsComponent implements OnInit {
   }
 
   deletePost(post) {
-    this.postsService.delete(post)
+    this.postsService.delete(345)
     .subscribe(res => {
       console.log(res);
       let index = this.posts.indexOf(post);
