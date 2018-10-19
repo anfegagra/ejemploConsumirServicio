@@ -1,8 +1,6 @@
 import { BadRequest } from './../errors/bad-request';
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AppError } from '../errors/app-error';
